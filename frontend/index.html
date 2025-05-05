@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Venta de Productos</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    .producto { margin-bottom: 15px; }
+  </style>
+</head>
+<body>
+  <h1>Stock en Sucursales</h1>
+  <div id="stock-list"></div>
+
+  <h2>Realizar Venta</h2>
+  <label for="sucursal">Sucursal:</label>
+  <select id="sucursal"></select>
+
+  <label for="cantidad">Cantidad:</label>
+  <input type="number" id="cantidad" />
+
+  <button onclick="vender()">Vender</button>
+
+  <p id="respuesta"></p>
+
+  <script>
+    let stockData = {};
+
+    // Cargar el stock desde el backend
+    fetch('http://localhost:8000/stock/')
+      .then(res => res.json())
+      .then(data => {
+        stockData = data;
+
+        const lista = document.getElementById("stock-list");
+        const selector = document.getElementById("sucursal");
+
+        for (const sucursal in data) {
+          const info = data[sucursal];
+          lista.innerHTML += `<div class="producto">${sucursal.toUpperCase()} - Cant: ${info.cantidad}, Precio: $${info.precio}</div>`;
+          selector.innerHTML += `<option value="${sucursal}">${sucursal.toUpperCase()}</option>`;
+        }
+      });
+
+    function vender() {
+      const sucursal = document.getElementById("sucursal").value;
+      const cantidad = parseInt(document.getElementById("cantidad").value);
+      const stockDisponible = stockData[sucursal].cantidad;
+
+      if (cantidad > stockDisponible) {
+        document.getElementById("respuesta").innerText = "No hay suficiente stock.";
+      } else {
+        // Aquí podrías enviar la venta al backend (aún no hecho)
+        document.getElementById("respuesta").innerText = `Venta realizada en ${sucursal.toUpperCase()} por ${cantidad} unidades.`;
+      }
+    }
+  </script>
+</body>
+</html>
