@@ -1,0 +1,4 @@
+https://si3.bcentral.cl/SieteRestWS/SieteRestWS.ashx?user=samuel.acuna1901@gmail.com&pass=!&timeseries=F073.TCO.PRE.Z.D
+
+
+Api consulta de dolar observado, respuesta json. Falta activar el uso en la web del banco central y agregar los filtros de fecha para obtener el ultimo resultado
